@@ -1,10 +1,8 @@
 package com.example.betting.betdetail
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -26,6 +25,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.extensions.toReadableDateTime
@@ -41,6 +41,7 @@ fun BetDetailScreen(
 ) {
     val uiState = viewModel.uiState.value
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -56,29 +57,35 @@ fun BetDetailScreen(
     ) { padding ->
         when (uiState) {
             is NetworkResult.Loading -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                    contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentAlignment = Alignment.Center
+                ) {
                     CircularProgressIndicator()
                 }
             }
 
             is NetworkResult.Error -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                    contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentAlignment = Alignment.Center
+                ) {
                     Text(text = "Error: ${uiState.message}")
                 }
             }
 
             is NetworkResult.Success -> {
                 val event = uiState.data
-                Column(modifier = Modifier
-                    .padding(padding)
-                    .padding(16.dp)
-                    .verticalScroll(scrollState)) {
+                Column(
+                    modifier = Modifier
+                        .padding(padding)
+                        .padding(16.dp)
+                        .verticalScroll(scrollState)
+                ) {
 
                     Text(
                         text = "${event.homeTeam} vs ${event.awayTeam}",
@@ -101,32 +108,54 @@ fun BetDetailScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             market.outcomes.forEach { outcome ->
+
+                                val bet = Bet(
+                                    eventId = event.id,
+                                    eventTitle = "${event.homeTeam} vs ${event.awayTeam}",
+                                    outcomeName = outcome.name,
+                                    odds = outcome.price,
+                                    bookmaker = bookmaker.key,
+                                    market = market.key,
+                                    commenceTime = event.commenceTime
+                                )
+
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
-                                        .clickable {
-                                            onBetSelected(
-                                                Bet(
-                                                    eventId = event.id,
-                                                    outcomeName = outcome.name,
-                                                    odds = outcome.price,
-                                                    bookmaker = bookmaker.key,
-                                                    market = market.key,
-                                                    eventTitle = event.awayTeam + " vs " + event.homeTeam,
-                                                    commenceTime = event.commenceTime
-                                                )
+                                        .padding(vertical = 8.dp)
+                                ) {
+                                    Box(modifier = Modifier.fillMaxWidth()) {
+
+                                        Column(modifier = Modifier.padding(12.dp)) {
+                                            Text(
+                                                "Pick: ${bet.outcomeName}",
+                                                style = MaterialTheme.typography.bodyLarge
+                                            )
+                                            Text(
+                                                "Odds: ${bet.odds}",
+                                                style = MaterialTheme.typography.bodyMedium
                                             )
                                         }
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .padding(12.dp)
-                                            .fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Text(text = outcome.name)
-                                        Text(text = "${outcome.price}")
+
+                                        IconButton(
+                                            onClick = {
+                                                viewModel.addBetToCart(bet)
+                                                onBetSelected(bet)
+                                                Toast.makeText(
+                                                    context,
+                                                    "Bet added to cart",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            },
+                                            modifier = Modifier
+                                                .align(Alignment.TopEnd)
+                                                .padding(4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Add,
+                                                contentDescription = "Add to cart"
+                                            )
+                                        }
                                     }
                                 }
                             }

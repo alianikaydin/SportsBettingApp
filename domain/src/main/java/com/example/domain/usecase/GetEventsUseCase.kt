@@ -3,8 +3,10 @@ package com.example.domain.usecase
 import com.example.domain.model.Event
 import com.example.domain.repository.SportsRepository
 import com.example.network.NetworkResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetEventsUseCase @Inject constructor(
@@ -44,4 +46,4 @@ class GetEventsUseCase @Inject constructor(
                 }
             }
         }
-    }}
+    }.flowOn(Dispatchers.IO)}

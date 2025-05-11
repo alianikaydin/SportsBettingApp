@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
     }
 
     buildFeatures {
@@ -31,6 +30,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":network"))
+    implementation(project(":analytics"))
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -39,4 +39,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(kotlin("test"))
 }

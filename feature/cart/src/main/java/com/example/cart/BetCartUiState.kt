@@ -1,8 +1,8 @@
 package com.example.cart
 
-import com.example.domain.model.Event
+import com.example.domain.model.Bet
 
 data class BetCartUiState(
-    val cartItems: List<Event> = emptyList(),
+    val bets: List<Bet> = emptyList(),
     val totalOdds: Double = 1.0
 )

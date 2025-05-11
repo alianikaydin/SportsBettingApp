@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375456790656",
+    "project_id": "betanalytics-bc759",
+    "storage_bucket": "betanalytics-bc759.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375456790656:android:ce740619d4078108660e65",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCllZZQ3zZsEXDp0iTnVoICtS8W-3ETo_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

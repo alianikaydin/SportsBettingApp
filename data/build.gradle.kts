@@ -12,7 +12,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
 
         val localProperties = Properties().apply {
             load(rootProject.file("local.properties").inputStream())
@@ -42,4 +41,7 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }

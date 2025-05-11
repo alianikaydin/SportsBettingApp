@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
     ksp(libs.moshi.kotlin.codegen)
+    implementation(libs.firebase.analytics)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.converter.moshi)

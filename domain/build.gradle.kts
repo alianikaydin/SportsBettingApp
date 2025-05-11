@@ -9,7 +9,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
     }
 }
 
@@ -21,4 +20,8 @@ dependencies {
     implementation(project(":network"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.truth)
 }

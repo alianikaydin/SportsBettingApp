@@ -10,7 +10,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
     }
 }
 
@@ -25,4 +24,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.truth)
 }
